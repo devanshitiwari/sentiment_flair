@@ -1,1 +1,1 @@
-# sentiment_flair
+# sentiment flair
