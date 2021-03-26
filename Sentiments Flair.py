@@ -18,88 +18,88 @@ import numpy as np
 
 
 #MODEL TRAINING
-# data = pd.read_csv('sentiment_regression_input.csv')
-#
-# # It is a good idea to check and make sure the data is loaded as expected.
-#
-# print(data.head(5))
-#
-#
-# # Pandas ".iloc" expects row_indexer, column_indexer
-# X = data['text']
-# # Now let's tell the dataframe which column we want for the target/labels.
-# y = data['sentiment']
-#
-#
-#
-# X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1)
-#
-# X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.25, random_state=1)
-#
-# output = pd.DataFrame()
-# output['text'] = X_train
-# output['sentiment'] = y_train
-# output.to_csv('train.csv', index=False)
-#
-# output = pd.DataFrame()
-# output['text'] = X_val
-# output['sentiment'] = y_val
-# output.to_csv('dev.csv', index=False)
-#
-# output = pd.DataFrame()
-# output['text'] = X_test
-# output['sentiment'] = y_test
-# output.to_csv('test.csv', index=False)
-#
-#
-# from flair.data import Corpus
-# from flair.datasets import CSVClassificationCorpus
-#
-# # this is the folder in which train, test and dev files reside
-# data_folder = './data_folder'
-#
-# # column format indicating which columns hold the text and label(s)
-# column_name_map = {0: "text", 1: "label_topic"}
-#
-# # load corpus containing training, test and dev data and if CSV has a header, you can skip it
-# corpus: Corpus = CSVClassificationCorpus(data_folder,
-#                                          column_name_map,
-#                                          skip_header=True,
-#                                          delimiter=',',    # tab-separated files
-# )
-#
-#
-#
-# # print the number of Sentences in the train split
-# print(len(corpus.train))
-#
-# # print the number of Sentences in the test split
-# print(len(corpus.test))
-#
-# # print the number of Sentences in the dev split
-# print(len(corpus.dev))
-#
-#
-#
-# # 2. create the label dictionary
-# label_dict = corpus.make_label_dictionary()
-#
-# # 3. initialize transformer document embeddings (many models are available)
-# document_embeddings = TransformerDocumentEmbeddings('distilbert-base-uncased', fine_tune=True)
-#
-# # 4. create the text classifier
-# classifier = TextClassifier(document_embeddings, label_dictionary=label_dict)
-#
-# # 5. initialize the text classifier trainer with Adam optimizer
-# trainer = ModelTrainer(classifier, corpus, optimizer=Adam)
-#
-# # 6. start the training
-# trainer.train('./model_result',
-#               learning_rate=3e-5, # use very small learning rate
-#               mini_batch_size=16,
-#               mini_batch_chunk_size=4, # optionally set this if transformer is too much for your machine
-#               max_epochs=5, # terminate after 5 epochs
-#               )
+data = pd.read_csv('sentiment_regression_input.csv')
+
+# It is a good idea to check and make sure the data is loaded as expected.
+
+print(data.head(5))
+
+
+# Pandas ".iloc" expects row_indexer, column_indexer
+X = data['text']
+# Now let's tell the dataframe which column we want for the target/labels.
+y = data['sentiment']
+
+
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1)
+
+X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.25, random_state=1)
+
+output = pd.DataFrame()
+output['text'] = X_train
+output['sentiment'] = y_train
+output.to_csv('train.csv', index=False)
+
+output = pd.DataFrame()
+output['text'] = X_val
+output['sentiment'] = y_val
+output.to_csv('dev.csv', index=False)
+
+output = pd.DataFrame()
+output['text'] = X_test
+output['sentiment'] = y_test
+output.to_csv('test.csv', index=False)
+
+
+from flair.data import Corpus
+from flair.datasets import CSVClassificationCorpus
+
+# this is the folder in which train, test and dev files reside
+data_folder = './data_folder'
+
+# column format indicating which columns hold the text and label(s)
+column_name_map = {0: "text", 1: "label_topic"}
+
+# load corpus containing training, test and dev data and if CSV has a header, you can skip it
+corpus: Corpus = CSVClassificationCorpus(data_folder,
+                                         column_name_map,
+                                         skip_header=True,
+                                         delimiter=',',    # tab-separated files
+)
+
+
+
+# print the number of Sentences in the train split
+print(len(corpus.train))
+
+# print the number of Sentences in the test split
+print(len(corpus.test))
+
+# print the number of Sentences in the dev split
+print(len(corpus.dev))
+
+
+
+# 2. create the label dictionary
+label_dict = corpus.make_label_dictionary()
+
+# 3. initialize transformer document embeddings (many models are available)
+document_embeddings = TransformerDocumentEmbeddings('distilbert-base-uncased', fine_tune=True)
+
+# 4. create the text classifier
+classifier = TextClassifier(document_embeddings, label_dictionary=label_dict)
+
+# 5. initialize the text classifier trainer with Adam optimizer
+trainer = ModelTrainer(classifier, corpus, optimizer=Adam)
+
+# 6. start the training
+trainer.train('./model_result',
+              learning_rate=3e-5, # use very small learning rate
+              mini_batch_size=16,
+              mini_batch_chunk_size=4, # optionally set this if transformer is too much for your machine
+              max_epochs=5, # terminate after 5 epochs
+              )
 
 def clean(raw):
     """ Remove hyperlinks and markup """
